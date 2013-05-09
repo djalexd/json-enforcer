@@ -24,7 +24,7 @@ import java.util.Set;
 public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
     private static final Set<Class> SIMPLE_FIELD_CLASSES = ImmutableSet.<Class>of(
-            Integer.class, Float.class, Double.class, String.class);
+            Integer.class, Long.class, Float.class, Double.class, String.class);
 
     private final Set<String> requiredFields;
     private final Set<String> requiredArrays;
