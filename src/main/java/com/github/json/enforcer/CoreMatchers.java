@@ -8,6 +8,14 @@ import java.util.Arrays;
  */
 public class CoreMatchers {
 
+    public static JsonMatcher arraySize(int expectedSize) {
+        return new ArraySizeJsonMatcher(expectedSize);
+    }
+
+    public static JsonMatcher arrayEmpty() {
+x        return arraySize(0);
+    }
+
     public static JsonMatcher arrayContents(Object ... objects) {
         return new ArrayContentsJsonMatcher(Arrays.asList(objects));
     }
