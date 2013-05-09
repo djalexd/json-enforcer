@@ -31,12 +31,12 @@ public class DefaultJsonMatcherTest {
         objectMapper = null;
     }
 
-    DefaultJsonMatcher.Builder builder;
+    JsonMatcherBuilder builder;
 
 
     @Before
     public void setupJsonMatcherBuilder() {
-        builder = new DefaultJsonMatcher.Builder();
+        builder = new JsonMatcherBuilder();
     }
 
     @After

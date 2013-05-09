@@ -11,4 +11,12 @@ import org.springframework.test.web.servlet.ResultMatcher;
  * @since 11:50 AM 5/8/13
  */
 public interface JsonMatcher extends ResultMatcher {
+
+    /**
+     * Provides a descriptive message for the AssertionError
+     * that is usually thrown when this matcher fails.
+     * @param path
+     * @return
+     */
+    String message(String path, Object ... arguments);
 }

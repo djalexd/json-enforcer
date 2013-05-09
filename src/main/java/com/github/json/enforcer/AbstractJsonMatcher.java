@@ -1,5 +1,8 @@
 package com.github.json.enforcer;
 
+import com.google.common.base.Optional;
+import com.jayway.jsonpath.InvalidPathException;
+import com.jayway.jsonpath.JsonPath;
 import org.fest.assertions.api.Assertions;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -49,4 +52,30 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
     }
 
     protected abstract void doMatch(String json) throws Exception;
+
+
+    /**
+     * Reads from given json, a target path. Uses language's
+     * generics to return the appropriate type.
+     *
+     * @param json
+     * @param path JsonPath specific syntax (starting with $)
+     * @param <T>
+     * @return
+     */
+    protected final <T> Optional<T> readFromPath(String json, String path) {
+        try {
+            return Optional.of(JsonPath.<T>read(json, path));
+
+        } catch (InvalidPathException e) {
+            // This is not a valid path, returns an absent value;
+            return Optional.absent();
+        }
+    }
+
+
+    @Override
+    public String message(String path, Object... arguments) {
+        throw new RuntimeException("Implement in subclasses for custom message.");
+    }
 }

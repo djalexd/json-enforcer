@@ -107,6 +107,16 @@
 
     <build>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -117,8 +127,31 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-        </plugins>
 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5.2</version>
+
+                <configuration>
+                    <formats>
+                        <format>xml</format>
+                    </formats>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5.2</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
