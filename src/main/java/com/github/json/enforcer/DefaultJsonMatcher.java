@@ -136,7 +136,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
         }
     }
 
-    private void throwPathAssertionError(String json, String path) {
+    private void throwPathAssertionError(String path, String json) {
         throw new AssertionError(String.format("Expect to find path $.%s for json '%s'", path, json));
     }
 
