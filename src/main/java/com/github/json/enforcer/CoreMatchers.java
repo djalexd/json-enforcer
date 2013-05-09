@@ -13,7 +13,7 @@ public class CoreMatchers {
     }
 
     public static JsonMatcher arrayEmpty() {
-x        return arraySize(0);
+        return arraySize(0);
     }
 
     public static JsonMatcher arrayContents(Object ... objects) {
