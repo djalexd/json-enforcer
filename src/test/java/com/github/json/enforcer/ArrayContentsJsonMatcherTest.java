@@ -19,7 +19,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
                 ImmutableSet.of("tag1", "tag2", "unknown"));
-        jsonMatcher = new ArrayContentsJsonMatcher(-1, "tag1", "tag2", "unknown");
+        jsonMatcher = CoreMatchers.arrayContents("tag1", "tag2", "unknown");
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
         // assert -- no need, there was no exception thrown.
@@ -30,7 +30,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
                 ImmutableSet.of("tag1", "tag2", "unknown"));
-        jsonMatcher = new ArrayContentsJsonMatcher(-1, "unknown", "tag1", "tag2");
+        jsonMatcher = CoreMatchers.arrayContents("unknown", "tag1", "tag2");
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
         // assert -- no need, there was no exception thrown.
@@ -43,7 +43,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
         String tagsAsString = objectMapper.writeValueAsString(
                 ImmutableSet.of("tag2"));
 
-        jsonMatcher = new ArrayContentsJsonMatcher(-1, "tag1", "tag2", "unknown");
+        jsonMatcher = CoreMatchers.arrayContents("tag1", "tag2", "unknown");
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
         // assert - built-in.
@@ -55,7 +55,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
         String tagsAsString = objectMapper.writeValueAsString(
                 ImmutableSet.of("tag2"));
 
-        jsonMatcher = new ArrayContentsJsonMatcher(-1, "tag1", 2, 5.0);
+        jsonMatcher = CoreMatchers.arrayContents("tag1", 2, 5.0);
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
         // assert - built-in.
@@ -69,7 +69,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
 
         jsonMatcher = new JsonMatcherBuilder()
                 .arrays("tags")
-                .arrayMatcher("tags", new ArrayContentsJsonMatcher(-1, "tag1", "tag2"))
+                .arrayMatcher("tags", CoreMatchers.arrayContents("tag1", "tag2"))
                 .build();
 
         // then

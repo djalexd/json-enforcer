@@ -17,10 +17,10 @@ public class ArrayContentsJsonMatcher extends AbstractJsonMatcher {
 
     private final List<Object> objects;
 
-    ArrayContentsJsonMatcher(Object ... objects) {
+    ArrayContentsJsonMatcher(List<Object> objects) {
         this.objects = ImmutableList.copyOf(objects);
     }
-    ArrayContentsJsonMatcher(int expectedStatus, Object ... objects) {
+    ArrayContentsJsonMatcher(int expectedStatus, List<Object> objects) {
         super(expectedStatus);
         this.objects = ImmutableList.copyOf(objects);
     }

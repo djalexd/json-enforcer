@@ -26,7 +26,7 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
         this.expectedStatus = expectedStatus;
     }
     protected AbstractJsonMatcher() {
-        this(200);
+        this(-1); // Skip status check by default.
     }
 
 
