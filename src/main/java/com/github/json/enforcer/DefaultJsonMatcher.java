@@ -8,7 +8,6 @@ import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 import org.fest.assertions.api.Assertions;
 import org.springframework.util.ClassUtils;
 
@@ -73,7 +72,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
                         .overridingErrorMessage("Expect path $.%s to be simple field, but found %s", f, ClassUtils.getQualifiedName(obj.getClass()));
 
             } catch (InvalidPathException e) {
-                throwPathAssertionError(f);
+                throwPathAssertionError(f, json);
             }
         }
     }
@@ -87,7 +86,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             try {
                 JSONArray array = JsonPath.read(json, "$." + a);
             } catch (InvalidPathException e) {
-                throwPathAssertionError(a);
+                throwPathAssertionError(a, json);
             }
         }
 
@@ -106,7 +105,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 */
 
             } catch (InvalidPathException e) {
-                throwPathAssertionError(a.getKey());
+                throwPathAssertionError(a.getKey(), json);
             }
 
         }
@@ -121,7 +120,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             try {
                 JSONObject obj = JsonPath.read(json, "$." + a);
             } catch (InvalidPathException e) {
-                throwPathAssertionError(a);
+                throwPathAssertionError(a, json);
             }
         }
 
@@ -132,13 +131,13 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
                 matcherForThisObject.match(new MockSpringMvcResult(object.toJSONString()));
 
             } catch (InvalidPathException e) {
-                throwPathAssertionError(a.getKey());
+                throwPathAssertionError(a.getKey(), json);
             }
         }
     }
 
-    private void throwPathAssertionError(String path) {
-        throw new AssertionError(String.format("Expect to find path $.%s", path));
+    private void throwPathAssertionError(String json, String path) {
+        throw new AssertionError(String.format("Expect to find path $.%s for json '%s'", path, json));
     }
 
 }
