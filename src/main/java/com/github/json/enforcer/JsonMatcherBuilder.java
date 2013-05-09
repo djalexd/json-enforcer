@@ -30,7 +30,7 @@ public class JsonMatcherBuilder {
      * the fact that it is an array.</p>
      */
     private Set<String> requiredArrays;
-
+    private Map<String, JsonMatcher> arrayContentMatchers;
     private Map<String, JsonMatcher> arrayMatchers;
 
     /**
@@ -52,6 +52,7 @@ public class JsonMatcherBuilder {
         this.clearFieldMatchers();
         this.clearArrays();
         this.clearArrayMatchers();
+        this.clearArrayContentMatchers();
         this.clearObjects();
         this.clearObjectMatchers();
     }
@@ -131,8 +132,38 @@ public class JsonMatcherBuilder {
         return this;
     }
 
+    /**
+     * Matcher implementations get the entire json array.
+     *
+     * @param field
+     * @param jsonMatcher
+     * @return
+     * @see #arrayContentMatcher(String, JsonMatcher)
+     */
     public JsonMatcherBuilder arrayMatcher(String field, JsonMatcher jsonMatcher) {
         this.arrayMatchers.put(field, jsonMatcher);
+        return this;
+    }
+
+    public JsonMatcherBuilder clearArrayContentMatchers() {
+        this.arrayContentMatchers = Maps.newHashMapWithExpectedSize(32);
+        return this;
+    }
+
+    /**
+     * Specify a matcher that will be applied to each item in the path array.
+     *
+     * <p>The difference between this method and {@link #arrayMatcher(String, JsonMatcher)} is
+     * that any implementation will only get an item at once, whereas {@link #arrayMatcher(String, JsonMatcher)}
+     * will get the entire array.
+     * </p>
+     *
+     * @param field
+     * @param jsonMatcher
+     * @return
+     */
+    public JsonMatcherBuilder arrayContentMatcher(String field, JsonMatcher jsonMatcher) {
+        this.arrayContentMatchers.put(field, jsonMatcher);
         return this;
     }
 
@@ -149,6 +180,6 @@ public class JsonMatcherBuilder {
 
 
     public JsonMatcher build() {
-        return new DefaultJsonMatcher(status, requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, objectMatchers);
+        return new DefaultJsonMatcher(status, requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, arrayContentMatchers, objectMatchers);
     }
 }

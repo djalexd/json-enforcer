@@ -8,6 +8,7 @@ import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 import org.fest.assertions.api.Assertions;
 import org.springframework.util.ClassUtils;
 
@@ -30,6 +31,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
     private final Set<String> requiredObjects;
 
     private final Map<String, JsonMatcher> fieldMatchers;
+    private final Map<String, JsonMatcher> arrayContentMatchers;
     private final Map<String, JsonMatcher> arrayMatchers;
     private final Map<String, JsonMatcher> objectMatchers;
 
@@ -40,6 +42,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             Set<String> requiredObjects,
             Map<String, JsonMatcher> fieldMatchers,
             Map<String, JsonMatcher> arrayMatchers,
+            Map<String, JsonMatcher> arrayContentMatchers,
             Map<String, JsonMatcher> objectMatchers) {
 
         super(expectedStatus);
@@ -49,6 +52,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
         this.fieldMatchers = ImmutableMap.copyOf(fieldMatchers);
         this.arrayMatchers = ImmutableMap.copyOf(arrayMatchers);
+        this.arrayContentMatchers = ImmutableMap.copyOf(arrayContentMatchers);
         this.objectMatchers = ImmutableMap.copyOf(objectMatchers);
     }
 
@@ -97,12 +101,22 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             try {
                 JSONArray array = JsonPath.read(json, "$." + a.getKey());
                 matcherForThisArray.match(new MockSpringMvcResult(array.toJSONString()));
-/*
+
+            } catch (InvalidPathException e) {
+                throwPathAssertionError(a.getKey(), json);
+            }
+
+        }
+
+        // Iterate through all array matchers and validate each item.
+        for (Map.Entry<String, JsonMatcher> a : this.arrayContentMatchers.entrySet()) {
+            JsonMatcher matcherForThisArray = a.getValue();
+            try {
+                JSONArray array = JsonPath.read(json, "$." + a.getKey());
                 for(Object o : array) {
                     final String oneObjectAsJsonString = JSONValue.toJSONString(o);
                     matcherForThisArray.match(new MockSpringMvcResult(oneObjectAsJsonString));
                 }
-*/
 
             } catch (InvalidPathException e) {
                 throwPathAssertionError(a.getKey(), json);
