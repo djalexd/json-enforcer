@@ -34,11 +34,15 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
     public final void match(MvcResult result) throws Exception {
 
         // Check status
-        final int actualStatus = result.getResponse().getStatus();
-        Assertions
-                .assertThat(actualStatus)
-                .isEqualTo(this.expectedStatus)
-                .overridingErrorMessage("Expected to find status %d, but found %d", expectedStatus, actualStatus);
+        if (this.expectedStatus < 0) {
+            // Skip check of status
+        } else {
+            final int actualStatus = result.getResponse().getStatus();
+            Assertions
+                    .assertThat(actualStatus)
+                    .isEqualTo(this.expectedStatus)
+                    .overridingErrorMessage("Expected to find status %d, but found %d", expectedStatus, actualStatus);
+        }
 
         // Check content-type
         Assertions

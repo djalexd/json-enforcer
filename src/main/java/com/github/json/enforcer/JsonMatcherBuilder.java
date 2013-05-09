@@ -56,6 +56,15 @@ public class JsonMatcherBuilder {
         this.clearObjectMatchers();
     }
 
+    /**
+     * Ignore status in the {@link JsonMatcher} implementations.
+     * @return
+     */
+    public JsonMatcherBuilder ignoreStatus() {
+        this.status = -1;
+        return this;
+    }
+
     public JsonMatcherBuilder status(int status) {
         this.status = status;
         return this;
