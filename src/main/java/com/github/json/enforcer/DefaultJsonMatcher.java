@@ -97,10 +97,13 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             JsonMatcher matcherForThisArray = a.getValue();
             try {
                 JSONArray array = JsonPath.read(json, "$." + a.getKey());
+                matcherForThisArray.match(new MockSpringMvcResult(array.toJSONString()));
+/*
                 for(Object o : array) {
                     final String oneObjectAsJsonString = JSONValue.toJSONString(o);
                     matcherForThisArray.match(new MockSpringMvcResult(oneObjectAsJsonString));
                 }
+*/
 
             } catch (InvalidPathException e) {
                 throwPathAssertionError(a.getKey());
