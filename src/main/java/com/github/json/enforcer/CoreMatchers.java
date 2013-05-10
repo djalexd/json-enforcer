@@ -24,4 +24,7 @@ public class CoreMatchers {
         return new ArrayContentsJsonMatcher(status, Arrays.asList(objects));
     }
 
+    public static JsonMatcher fieldValue(String path, Object expected) {
+        return new FieldValueJsonMatcher(path, expected);
+    }
 }
