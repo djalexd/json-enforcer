@@ -45,6 +45,8 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
         }
 
         // Check content-type
+        if (result.getResponse().getContentType() == null)
+            throw new AssertionError("Response Content-Type is null!");
         Assertions
                 .assertThat(result.getResponse().getContentType())
                 .containsIgnoringCase("application/json")
