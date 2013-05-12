@@ -27,4 +27,12 @@ public class CoreMatchers {
     public static JsonMatcher fieldValue(String path, Object expected) {
         return new FieldValueJsonMatcher(path, expected);
     }
+
+    public static JsonMatcher fieldExists(String path) {
+        return new FieldExistsJsonMatcher(path);
+    }
+
+    public static JsonMatcher fieldDoesNotExist(String path) {
+        return new FieldMissingJsonMatcher(path);
+    }
 }
