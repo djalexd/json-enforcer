@@ -30,7 +30,7 @@ public class ArraySizeJsonMatcher extends AbstractJsonMatcher {
     protected void doMatch(String json) throws Exception {
 
         final JSONArray array = JsonPath.read(json, "$.[*]");
-        if (array.size() < this.minExpectedSize) {
+        if (array.size() < this.minExpectedSize || array.size() > this.maxExpectedSize) {
             failWithMessage(null, this.minExpectedSize, this.maxExpectedSize, array.size());
         }
     }
