@@ -31,14 +31,14 @@ public class ArrayContentsJsonMatcher extends AbstractJsonMatcher {
         final JSONArray array = JsonPath.read(json, "$.[*]");
         for (Object expected : objects) {
             if (array.indexOf(expected) < 0) {
-                throw new AssertionError(this.message(null, expected));
+                this.failWithMessage(null, expected);
             }
         }
     }
 
     @Override
-    public String message(String path, Object... arguments) {
+    public void failWithMessage(String path, Object... arguments) {
         Preconditions.checkArgument(arguments.length > 0, "No object specified");
-        return String.format("Object %s not found in array", arguments[0]);
+        throw new AssertionError(String.format("Object %s not found in array", arguments[0]));
     }
 }

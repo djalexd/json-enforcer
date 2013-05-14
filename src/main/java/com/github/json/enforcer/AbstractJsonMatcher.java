@@ -79,9 +79,13 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
         }
     }
 
-
-    @Override
-    public String message(String path, Object... arguments) {
-        throw new RuntimeException("Implement in subclasses for custom message.");
+    /**
+     * Throws an {@link AssertionError} for the given path. Subclasses may
+     * override this to provide a different message.
+     * @param path Json path where matcher failed.
+     * @param arguments A var-arg array of arguments.
+     */
+    public void failWithMessage(String path, Object... arguments) {
+        throw new AssertionError(path);
     }
 }

@@ -20,12 +20,12 @@ public class FieldExistsJsonMatcher extends AbstractJsonMatcher {
         try {
             JsonPath.read(json, path);
         } catch (InvalidPathException e) {
-            throw new AssertionError(this.message(path));
+            failWithMessage(path);
         }
     }
 
     @Override
-    public String message(String path, Object... arguments) {
-        return String.format("Expect to have path '%s'", path);
+    public void failWithMessage(String path, Object... arguments) {
+        throw new AssertionError(String.format("Expect to have path '%s'", path));
     }
 }

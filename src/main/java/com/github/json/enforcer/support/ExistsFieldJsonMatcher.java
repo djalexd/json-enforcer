@@ -9,27 +9,21 @@ import com.google.common.base.Optional;
  */
 public class ExistsFieldJsonMatcher extends AbstractJsonMatcher {
 
-    private String field;
-    public ExistsFieldJsonMatcher(int expectedStatus, String field) {
-        super(expectedStatus);
-        this.field = field;
-    }
-
+    private final String field;
     public ExistsFieldJsonMatcher(String field) {
         this.field = field;
     }
-
 
     @Override
     protected void doMatch(String json) throws Exception {
         final Optional<String> objectOfPath = readFromPath(json, field);
         if (!objectOfPath.isPresent()) {
-            throw new AssertionError(this.message(field));
+            failWithMessage(field);
         }
     }
 
     @Override
-    public String message(String path, Object... arguments) {
-        return String.format("Expected to find path %s", path);
+    public void failWithMessage(String path, Object... arguments) {
+        throw new AssertionError(String.format("Expected to find path %s", path));
     }
 }

@@ -19,14 +19,14 @@ public class FieldMissingJsonMatcher extends AbstractJsonMatcher {
     protected void doMatch(String json) throws Exception {
         try {
             JsonPath.read(json, path);
-            throw new AssertionError(this.message(path));
+            failWithMessage(path);
         } catch (InvalidPathException e) {
             // This is ok.
         }
     }
 
     @Override
-    public String message(String path, Object... arguments) {
-        return String.format("Expect to miss path '%s', but was found", path);
+    public void failWithMessage(String path, Object... arguments) {
+        throw new AssertionError(String.format("Expect to miss path '%s', but was found", path));
     }
 }
