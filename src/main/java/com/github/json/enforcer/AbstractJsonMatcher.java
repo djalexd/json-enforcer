@@ -33,10 +33,8 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
     @Override
     public final void match(MvcResult result) throws Exception {
 
-        // Check status
-        if (this.expectedStatus < 0) {
-            // Skip check of status
-        } else {
+        // Check status, but only if specified (>0)
+        if (this.expectedStatus > 0) {
             final int actualStatus = result.getResponse().getStatus();
             Assertions
                     .assertThat(actualStatus)
