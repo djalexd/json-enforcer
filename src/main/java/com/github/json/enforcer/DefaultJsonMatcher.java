@@ -1,6 +1,6 @@
 package com.github.json.enforcer;
 
-import com.github.json.enforcer.support.MockSpringMvcResult;
+import com.github.json.enforcer.internal.MockSpringMvcResult;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;

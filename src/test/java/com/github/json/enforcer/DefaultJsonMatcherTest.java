@@ -1,6 +1,6 @@
 package com.github.json.enforcer;
 
-import com.github.json.enforcer.support.MockSpringMvcResult;
+import com.github.json.enforcer.internal.MockSpringMvcResult;
 import com.github.json.enforcer.test_domain.BestPrice;
 import com.github.json.enforcer.test_domain.Notebook;
 import com.github.json.enforcer.test_domain.Shop;

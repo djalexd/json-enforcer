@@ -1,5 +1,6 @@
 package com.github.json.enforcer;
 
+import com.github.json.enforcer.internal.InternalBundleReader;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 
@@ -27,6 +28,7 @@ public class FieldMissingJsonMatcher extends AbstractJsonMatcher {
 
     @Override
     public void failWithMessage(String path, Object... arguments) {
-        throw new AssertionError(String.format("Expect to miss path '%s', but was found", path));
+        throw new AssertionError(
+                InternalBundleReader.getMessageAndFormat("fieldMissingMatcherError", path));
     }
 }

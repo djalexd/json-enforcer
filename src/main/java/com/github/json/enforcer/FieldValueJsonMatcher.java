@@ -1,5 +1,6 @@
 package com.github.json.enforcer;
 
+import com.github.json.enforcer.internal.InternalBundleReader;
 import com.jayway.jsonpath.JsonPath;
 
 /**
@@ -20,7 +21,14 @@ public class FieldValueJsonMatcher extends AbstractJsonMatcher {
     protected void doMatch(String json) throws Exception {
         final Object found = JsonPath.read(json, "$." + path);
         if (!expectedValue.equals(found)) {
-            throw new AssertionError("Expected to find " + expectedValue + " for path " + path + "; found " + found);
+            failWithMessage(path, expectedValue, found);
         }
+    }
+
+    @Override
+    public void failWithMessage(String path, Object... arguments) {
+        throw new AssertionError((InternalBundleReader.getMessageAndFormat(
+                "fieldValueMatcherError", path, arguments[0], arguments[2]
+        )));
     }
 }

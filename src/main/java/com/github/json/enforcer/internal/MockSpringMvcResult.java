@@ -1,4 +1,4 @@
-package com.github.json.enforcer.support;
+package com.github.json.enforcer.internal;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;

@@ -1,5 +1,6 @@
 package com.github.json.enforcer;
 
+import com.github.json.enforcer.internal.InternalBundleReader;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.jayway.jsonpath.JsonPath;
@@ -39,6 +40,7 @@ public class ArrayContentsJsonMatcher extends AbstractJsonMatcher {
     @Override
     public void failWithMessage(String path, Object... arguments) {
         Preconditions.checkArgument(arguments.length > 0, "No object specified");
-        throw new AssertionError(String.format("Object %s not found in array", arguments[0]));
+        throw new AssertionError(InternalBundleReader.getMessageAndFormat(
+                "arrayContentsMatcherError", path, arguments[0]));
     }
 }

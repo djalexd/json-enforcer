@@ -1,5 +1,6 @@
 package com.github.json.enforcer;
 
+import com.github.json.enforcer.internal.InternalBundleReader;
 import com.google.common.base.Preconditions;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
@@ -35,11 +36,10 @@ public class ArraySizeJsonMatcher extends AbstractJsonMatcher {
     }
 
     @Override
-    public void failWithMessage(String path, Object... arguments) {
-        Preconditions.checkArgument(arguments.length > 2, "Requires 3 arguments");
-        throw new AssertionError(String.format(
-                "Expected array size between %d and %d, but found %d",
-                arguments[0], arguments[1], arguments[2]));
+    public void failWithMessage(String path, Object... args) {
+        Preconditions.checkArgument(args.length > 2, "Requires 3 arguments");
+        throw new AssertionError(InternalBundleReader.getMessageAndFormat(
+                "arraySizeMatcherError", path, args[0], args[1], args[2] ));
     }
 
 }
