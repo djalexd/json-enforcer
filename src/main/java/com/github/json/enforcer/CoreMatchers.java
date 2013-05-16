@@ -47,7 +47,7 @@ public class CoreMatchers {
      * @return
      */
     public static JsonMatcher arrayContents(Object ... objects) {
-        return new ArrayContentsJsonMatcher(Arrays.asList(objects));
+        return new ArrayContentsEqualsJsonMatcher(Arrays.asList(objects));
     }
 
     /**
@@ -78,5 +78,17 @@ public class CoreMatchers {
      */
     public static JsonMatcher fieldDoesNotExist(String path) {
         return new FieldMissingJsonMatcher(path);
+    }
+
+    /**
+     * Builds a matcher that will validate each object in a root array, i.e.:
+     * <pre>[ { ... }, { ... } ]</pre>
+     *
+     * The provided matcher will be used.
+     * @param matcher
+     * @return
+     */
+    public static JsonMatcher arrayContentsMatcher(JsonMatcher matcher) {
+        return new ArrayContentsJsonMatcher(matcher);
     }
 }
