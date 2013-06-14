@@ -8,6 +8,7 @@
     <artifactId>enforcer</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
+    <name>json enforcer</name>
     <description>
         A tiny library aimed to simplify json data validation, by providing
         support for generic JSON strings, or SpringMVC ResultMatcher.
