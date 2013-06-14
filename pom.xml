@@ -163,6 +163,10 @@
         </plugins>
     </build>
 
+    <scm>
+        <developerConnection>scm:git:ssh://github.com/djalexd/json-enforcer.git</developerConnection>
+    </scm>
+
     <reporting>
         <plugins>
             <plugin>
