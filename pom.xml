@@ -172,8 +172,8 @@
     </build>
 
     <scm>
-        <connection>scm:git:git@github.com/djalexd/json-enforcer.git</connection>
-        <developerConnection>scm:git:git@github.com/djalexd/json-enforcer.git</developerConnection>
+        <connection>scm:git:git@github.com:djalexd/json-enforcer.git</connection>
+        <developerConnection>scm:git:git@github.com:djalexd/json-enforcer.git</developerConnection>
         <url>http://github.com/djalexd/json-enforcer</url>
     </scm>
 
