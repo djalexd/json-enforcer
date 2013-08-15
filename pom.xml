@@ -185,6 +185,13 @@
     </scm>
 -->
 
+    <distributionManagement>
+        <repository>
+            <id>dev.cloudchiefs.com</id>
+            <url>http://dev.cloudchiefs.com/repo/libs-local</url>
+        </repository>
+    </distributionManagement>
+
     <reporting>
         <plugins>
             <plugin>
