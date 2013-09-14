@@ -187,7 +187,7 @@
 
     <distributionManagement>
         <repository>
-            <id>dev.cloudchiefs.com</id>
+            <id>dev.cloudchiefs.com/repo/libs-local</id>
             <url>http://dev.cloudchiefs.com/repo/libs-local</url>
         </repository>
     </distributionManagement>
