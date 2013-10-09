@@ -5,7 +5,7 @@
     <groupId>com.github.json.enforcer</groupId>
     <artifactId>enforcer</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.7-SNAPSHOT</version>
+    <version>0.2.7</version>
     <name>json enforcer</name>
     <description>
         A tiny library aimed to simplify json data validation, by providing
