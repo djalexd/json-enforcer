@@ -9,6 +9,7 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,9 +21,6 @@ import java.util.Set;
  * @since 12:51 PM 5/8/13
  */
 public class DefaultJsonMatcher extends AbstractJsonMatcher {
-
-    private static final Set<Class> SIMPLE_FIELD_CLASSES = ImmutableSet.<Class>of(
-            Integer.class, Long.class, Float.class, Double.class, String.class, Boolean.class);
 
     private final Set<String> requiredFields;
     private final Set<String> requiredArrays;
@@ -62,19 +60,9 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
     @VisibleForTesting
     void matchRequiredFields(String json) throws Exception {
-
-        for (final String f : this.requiredFields) {
-            try {
-                Object obj = JsonPath.read(json, "$." + f);
-                if (!SIMPLE_FIELD_CLASSES.contains(obj.getClass())) {
-                    throw new AssertionError(String.format(
-                            "Expect path $.%s to be simple field, but found %s",
-                            f, obj.getClass() ));
-                }
-
-            } catch (InvalidPathException e) {
-                throwPathAssertionError(f, json);
-            }
+        for (final String path : this.requiredFields) {
+            new FieldExistsJsonMatcher(path).match(new MockSpringMvcResult(json));
+            new FieldSimpleClassMatcher(path).match(new MockSpringMvcResult(json));
         }
     }
 
@@ -127,12 +115,10 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
     @VisibleForTesting
     void matchRequiredObjects(String json) throws Exception {
 
+        final MvcResult result = new MockSpringMvcResult(json);
+
         for (final String a : this.requiredObjects) {
-            try {
-                JSONObject obj = JsonPath.read(json, "$." + a);
-            } catch (InvalidPathException e) {
-                throwPathAssertionError(a, json);
-            }
+            new FieldExistsJsonMatcher(a).match(result);
         }
 
         for (Map.Entry<String, JsonMatcher> a : this.objectMatchers.entrySet()) {
