@@ -9,7 +9,6 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.springframework.util.ClassUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +69,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
                 if (!SIMPLE_FIELD_CLASSES.contains(obj.getClass())) {
                     throw new AssertionError(String.format(
                             "Expect path $.%s to be simple field, but found %s",
-                            f, ClassUtils.getQualifiedName(obj.getClass())));
+                            f, obj.getClass() ));
                 }
 
             } catch (InvalidPathException e) {
