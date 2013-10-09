@@ -44,10 +44,7 @@ public class JsonMatcherBuilder {
 
     private Map<String, JsonMatcher> objectMatchers;
 
-    private int status;
-
     public JsonMatcherBuilder() {
-        this.status(200);
         this.clearFields();
         this.clearFieldMatchers();
         this.clearArrays();
@@ -55,20 +52,6 @@ public class JsonMatcherBuilder {
         this.clearArrayContentMatchers();
         this.clearObjects();
         this.clearObjectMatchers();
-    }
-
-    /**
-     * Ignore status in the {@link JsonMatcher} implementations.
-     * @return
-     */
-    public JsonMatcherBuilder ignoreStatus() {
-        this.status = -1;
-        return this;
-    }
-
-    public JsonMatcherBuilder status(int status) {
-        this.status = status;
-        return this;
     }
 
     public JsonMatcherBuilder clearFields() {
@@ -180,6 +163,6 @@ public class JsonMatcherBuilder {
 
 
     public JsonMatcher build() {
-        return new DefaultJsonMatcher(status, requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, arrayContentMatchers, objectMatchers);
+        return new DefaultJsonMatcher(requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, arrayContentMatchers, objectMatchers);
     }
 }

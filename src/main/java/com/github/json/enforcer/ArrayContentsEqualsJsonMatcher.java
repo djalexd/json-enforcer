@@ -21,10 +21,6 @@ public class ArrayContentsEqualsJsonMatcher extends AbstractJsonMatcher {
     ArrayContentsEqualsJsonMatcher(List<Object> objects) {
         this.objects = ImmutableList.copyOf(objects);
     }
-    ArrayContentsEqualsJsonMatcher(int expectedStatus, List<Object> objects) {
-        super(expectedStatus);
-        this.objects = ImmutableList.copyOf(objects);
-    }
 
     @Override
     protected void doMatch(String json) throws Exception {

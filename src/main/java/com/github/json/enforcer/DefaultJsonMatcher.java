@@ -9,7 +9,6 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import org.fest.assertions.api.Assertions;
 import org.springframework.util.ClassUtils;
 
 import java.util.Map;
@@ -36,7 +35,6 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
     private final Map<String, JsonMatcher> objectMatchers;
 
     DefaultJsonMatcher(
-            int expectedStatus,
             Set<String> requiredFields,
             Set<String> requiredArrays,
             Set<String> requiredObjects,
@@ -45,7 +43,6 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             Map<String, JsonMatcher> arrayContentMatchers,
             Map<String, JsonMatcher> objectMatchers) {
 
-        super(expectedStatus);
         this.requiredFields = ImmutableSet.copyOf(requiredFields);
         this.requiredArrays = ImmutableSet.copyOf(requiredArrays);
         this.requiredObjects = ImmutableSet.copyOf(requiredObjects);
@@ -70,10 +67,11 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
         for (final String f : this.requiredFields) {
             try {
                 Object obj = JsonPath.read(json, "$." + f);
-                Assertions
-                        .assertThat(SIMPLE_FIELD_CLASSES)
-                        .contains(obj.getClass())
-                        .overridingErrorMessage("Expect path $.%s to be simple field, but found %s", f, ClassUtils.getQualifiedName(obj.getClass()));
+                if (!SIMPLE_FIELD_CLASSES.contains(obj.getClass())) {
+                    throw new AssertionError(String.format(
+                            "Expect path $.%s to be simple field, but found %s",
+                            f, ClassUtils.getQualifiedName(obj.getClass())));
+                }
 
             } catch (InvalidPathException e) {
                 throwPathAssertionError(f, json);

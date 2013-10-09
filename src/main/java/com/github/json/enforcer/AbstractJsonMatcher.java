@@ -3,7 +3,6 @@ package com.github.json.enforcer;
 import com.google.common.base.Optional;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
-import org.fest.assertions.api.Assertions;
 import org.springframework.test.web.servlet.MvcResult;
 
 /**
@@ -21,34 +20,8 @@ import org.springframework.test.web.servlet.MvcResult;
  */
 public abstract class AbstractJsonMatcher implements JsonMatcher {
 
-    private final int expectedStatus;
-    protected AbstractJsonMatcher(int expectedStatus) {
-        this.expectedStatus = expectedStatus;
-    }
-    protected AbstractJsonMatcher() {
-        this(-1); // Skip status check by default.
-    }
-
-
     @Override
     public final void match(MvcResult result) throws Exception {
-
-        // Check status, but only if specified (>0)
-        if (this.expectedStatus > 0) {
-            final int actualStatus = result.getResponse().getStatus();
-            Assertions
-                    .assertThat(actualStatus)
-                    .isEqualTo(this.expectedStatus)
-                    .overridingErrorMessage("Expected to find status %d, but found %d", expectedStatus, actualStatus);
-        }
-
-        // Check content-type
-        if (result.getResponse().getContentType() == null)
-            throw new AssertionError("Response Content-Type is null!");
-        Assertions
-                .assertThat(result.getResponse().getContentType())
-                .containsIgnoringCase("application/json")
-                .overridingErrorMessage("Expected to find Content-Type: application/json, but found %s", result.getResponse().getContentType());
 
         // Finally delegate with actual contents.
         final String contents = result.getResponse().getContentAsString();
