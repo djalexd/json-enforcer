@@ -1,9 +1,6 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.MockSpringMvcResult;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
@@ -11,8 +8,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A json matcher implementation. This matcher is supported by its builder.
@@ -40,14 +36,14 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             Map<String, JsonMatcher> arrayContentMatchers,
             Map<String, JsonMatcher> objectMatchers) {
 
-        this.requiredFields = ImmutableSet.copyOf(requiredFields);
-        this.requiredArrays = ImmutableSet.copyOf(requiredArrays);
-        this.requiredObjects = ImmutableSet.copyOf(requiredObjects);
+        this.requiredFields = new HashSet<String>(requiredFields);
+        this.requiredArrays = new HashSet<String>(requiredArrays);
+        this.requiredObjects = new HashSet<String>(requiredObjects);
 
-        this.fieldMatchers = ImmutableMap.copyOf(fieldMatchers);
-        this.arrayMatchers = ImmutableMap.copyOf(arrayMatchers);
-        this.arrayContentMatchers = ImmutableMap.copyOf(arrayContentMatchers);
-        this.objectMatchers = ImmutableMap.copyOf(objectMatchers);
+        this.fieldMatchers = new HashMap<String, JsonMatcher>(fieldMatchers);
+        this.arrayMatchers = new HashMap<String, JsonMatcher>(arrayMatchers);
+        this.arrayContentMatchers = new HashMap<String, JsonMatcher>(arrayContentMatchers);
+        this.objectMatchers = new HashMap<String, JsonMatcher>(objectMatchers);
     }
 
     @Override
@@ -58,7 +54,6 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
     }
 
 
-    @VisibleForTesting
     void matchRequiredFields(String json) throws Exception {
         for (final String path : this.requiredFields) {
             new FieldExistsJsonMatcher(path).match(new MockSpringMvcResult(json));
@@ -68,7 +63,6 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
 
     @SuppressWarnings("unused")
-    @VisibleForTesting
     void matchRequiredArrays(String json) throws Exception {
 
         for (final String a : this.requiredArrays) {
@@ -112,7 +106,6 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
 
     @SuppressWarnings("unused")
-    @VisibleForTesting
     void matchRequiredObjects(String json) throws Exception {
 
         final MvcResult result = new MockSpringMvcResult(json);

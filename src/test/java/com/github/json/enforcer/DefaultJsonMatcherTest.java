@@ -4,9 +4,11 @@ import com.github.json.enforcer.internal.MockSpringMvcResult;
 import com.github.json.enforcer.test_domain.BestPrice;
 import com.github.json.enforcer.test_domain.Notebook;
 import com.github.json.enforcer.test_domain.Shop;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.junit.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author alex.dobjanschi
@@ -44,8 +46,8 @@ public class DefaultJsonMatcherTest extends BaseJsonMatcherTest {
     public void should_validate_array_fields() throws Exception {
         // when
         Notebook notebook = new Notebook(null, null,
-                Sets.newHashSet("ultrabook", "mobile"),
-                Lists.newArrayList(new Shop("Bucharest")), null);
+                new HashSet<String>(Arrays.asList("ultrabook", "mobile")),
+                new ArrayList<Shop>(Arrays.asList(new Shop("Bucharest"))), null);
         final String json = objectMapper.writeValueAsString(notebook);
 
         builder.arrays("tags", "shops");

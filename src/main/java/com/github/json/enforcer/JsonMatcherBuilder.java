@@ -1,12 +1,6 @@
 package com.github.json.enforcer;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Builder pattern for {@link com.github.json.enforcer.DefaultJsonMatcher}.
@@ -55,53 +49,59 @@ public class JsonMatcherBuilder {
     }
 
     public JsonMatcherBuilder clearFields() {
-        this.requiredFields = Sets.newHashSet();
+        this.requiredFields = new HashSet<String>();
         return this;
     }
 
     public JsonMatcherBuilder fields(String ... fields) {
-        return this.fields(Sets.newHashSet(fields));
+        return this.fields(new HashSet<String>(Arrays.asList(fields)));
     }
 
     public JsonMatcherBuilder fields(Set<String> fields) {
-        Preconditions.checkNotNull(fields);
-        this.requiredFields = ImmutableSet.copyOf(fields);
+        if (fields == null) {
+            throw new NullPointerException("Fields cannot be null");
+        }
+        this.requiredFields = new HashSet<String>(fields);
         return this;
     }
 
     public JsonMatcherBuilder clearArrays() {
-        this.requiredArrays = Sets.newHashSet();
+        this.requiredArrays = new HashSet<String>();
         return this;
     }
 
     public JsonMatcherBuilder arrays(Set<String> arrays) {
-        Preconditions.checkNotNull(arrays);
-        this.requiredArrays = ImmutableSet.copyOf(arrays);
+        if (arrays == null) {
+            throw new NullPointerException("Arrays cannot be null");
+        }
+        this.requiredArrays = new HashSet<String>(arrays);
         return this;
     }
 
     public JsonMatcherBuilder arrays(String ... arrays) {
-        return this.arrays(Sets.newHashSet(arrays));
+        return this.arrays(new HashSet<String>(Arrays.asList(arrays)));
     }
 
 
     public JsonMatcherBuilder clearObjects() {
-        this.requiredObjects = Sets.newHashSet();
+        this.requiredObjects = new HashSet<String>();
         return this;
     }
 
     public JsonMatcherBuilder objects(Set<String> objects) {
-        Preconditions.checkNotNull(objects);
-        this.requiredObjects = ImmutableSet.copyOf(objects);
+        if (objects == null) {
+            throw new NullPointerException("Objects cannot be null");
+        }
+        this.requiredObjects = new HashSet<String>(objects);
         return this;
     }
 
     public JsonMatcherBuilder objects(String ... objects) {
-        return this.objects(Sets.newHashSet(objects));
+        return this.objects(new HashSet<String>(Arrays.asList(objects)));
     }
 
     public JsonMatcherBuilder clearFieldMatchers() {
-        this.fieldMatchers = Maps.newHashMapWithExpectedSize(32);
+        this.fieldMatchers = new HashMap<String, JsonMatcher>(32);
         return this;
     }
 
@@ -111,7 +111,7 @@ public class JsonMatcherBuilder {
     }
 
     public JsonMatcherBuilder clearArrayMatchers() {
-        this.arrayMatchers = Maps.newHashMapWithExpectedSize(32);
+        this.arrayMatchers = new HashMap<String, JsonMatcher>(32);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class JsonMatcherBuilder {
     }
 
     public JsonMatcherBuilder clearArrayContentMatchers() {
-        this.arrayContentMatchers = Maps.newHashMapWithExpectedSize(32);
+        this.arrayContentMatchers = new HashMap<String, JsonMatcher>(32);
         return this;
     }
 
@@ -151,7 +151,7 @@ public class JsonMatcherBuilder {
     }
 
     public JsonMatcherBuilder clearObjectMatchers() {
-        this.objectMatchers = Maps.newHashMapWithExpectedSize(32);
+        this.objectMatchers = new HashMap<String, JsonMatcher>(32);
         return this;
     }
 

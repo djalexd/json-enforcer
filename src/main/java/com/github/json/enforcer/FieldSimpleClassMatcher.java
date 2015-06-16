@@ -1,10 +1,11 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.InternalBundleReader;
-import com.google.common.collect.ImmutableSet;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Set;
 public class FieldSimpleClassMatcher extends AbstractJsonMatcher {
 
     @SuppressWarnings("unchecked")
-    private static final Set<Class> SIMPLE_FIELD_CLASSES = ImmutableSet.<Class>of(
-            Integer.class, Long.class, Float.class, Double.class, String.class, Boolean.class);
+    private static final Set<Class> SIMPLE_FIELD_CLASSES = new HashSet<Class>(Arrays.asList(
+            Integer.class, Long.class, Float.class, Double.class, String.class, Boolean.class));
 
     private String path;
     public FieldSimpleClassMatcher(String path) {

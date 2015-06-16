@@ -1,11 +1,10 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.InternalBundleReader;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public class ArrayContentsEqualsJsonMatcher extends AbstractJsonMatcher {
     private final List<Object> objects;
 
     ArrayContentsEqualsJsonMatcher(List<Object> objects) {
-        this.objects = ImmutableList.copyOf(objects);
+        this.objects = new ArrayList<Object>(objects);
     }
 
     @Override
@@ -35,7 +34,9 @@ public class ArrayContentsEqualsJsonMatcher extends AbstractJsonMatcher {
 
     @Override
     public void failWithMessage(String path, Object... arguments) {
-        Preconditions.checkArgument(arguments.length > 0, "No object specified");
+        if (arguments == null || arguments.length == 0) {
+            throw new IllegalArgumentException("No object specified");
+        }
         throw new AssertionError(InternalBundleReader.getMessageAndFormat(
                 "arrayContentsMatcherError", path, arguments[0]));
     }

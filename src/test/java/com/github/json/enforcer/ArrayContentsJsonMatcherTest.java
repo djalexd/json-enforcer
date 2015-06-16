@@ -2,8 +2,10 @@ package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.MockSpringMvcResult;
 import com.github.json.enforcer.test_domain.Notebook;
-import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author alex.dobjanschi
@@ -18,7 +20,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
     public void should_validate_array_contents() throws Exception {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
-                ImmutableSet.of("tag1", "tag2", "unknown"));
+                new HashSet<String>(Arrays.asList("tag1", "tag2", "unknown")));
         jsonMatcher = CoreMatchers.arrayContents("tag1", "tag2", "unknown");
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
@@ -29,7 +31,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
     public void should_validate_array_contents_unordered() throws Exception {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
-                ImmutableSet.of("tag1", "tag2", "unknown"));
+                new HashSet<String>(Arrays.asList("tag1", "tag2", "unknown")));
         jsonMatcher = CoreMatchers.arrayContents("unknown", "tag1", "tag2");
         // then
         jsonMatcher.match(new MockSpringMvcResult(tagsAsString));
@@ -41,7 +43,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
     public void should_throw_assertionError_if_object_not_found_in_array_contents() throws Exception {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
-                ImmutableSet.of("tag2"));
+                new HashSet<String>(Arrays.asList("tag2")));
 
         jsonMatcher = CoreMatchers.arrayContents("tag1", "tag2", "unknown");
         // then
@@ -53,7 +55,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
     public void should_throw_assertionError_if_object_not_found_in_array_contents_different_class() throws Exception {
         // when
         String tagsAsString = objectMapper.writeValueAsString(
-                ImmutableSet.of("tag2"));
+                new HashSet<String>(Arrays.asList("tag2")));
 
         jsonMatcher = CoreMatchers.arrayContents("tag1", 2, 5.0);
         // then
@@ -64,7 +66,7 @@ public class ArrayContentsJsonMatcherTest extends BaseJsonMatcherTest {
     @Test
     public void should_validate_for_subpath() throws Exception {
         // when
-        Notebook notebook = new Notebook(null, null, ImmutableSet.of("tag1", "tag2"), null, null);
+        Notebook notebook = new Notebook(null, null, new HashSet<String>(Arrays.asList("tag1", "tag2")), null, null);
         String notebookAsString = objectMapper.writeValueAsString(notebook);
 
         jsonMatcher = new JsonMatcherBuilder()
