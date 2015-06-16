@@ -12,4 +12,10 @@ import org.springframework.test.web.servlet.ResultMatcher;
  */
 public interface JsonMatcher extends ResultMatcher {
 
+    /**
+     * Matches against a JSON string representation.
+     * @param json
+     * @throws AssertionError thrown if matching fails
+     */
+    void match(String json) throws AssertionError;
 }

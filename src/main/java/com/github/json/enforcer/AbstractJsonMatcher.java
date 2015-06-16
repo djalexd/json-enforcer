@@ -25,6 +25,15 @@ public abstract class AbstractJsonMatcher implements JsonMatcher {
         this.doMatch(contents);
     }
 
+    @Override
+    public void match(String json) throws AssertionError {
+        try {
+            this.doMatch(json);
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
+    }
+
     protected abstract void doMatch(String json) throws Exception;
 
     /**
