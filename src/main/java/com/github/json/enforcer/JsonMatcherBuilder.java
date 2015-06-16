@@ -38,6 +38,8 @@ public class JsonMatcherBuilder {
 
     private Map<String, JsonMatcher> objectMatchers;
 
+    private boolean allowNullValue = false;
+
     public JsonMatcherBuilder() {
         this.clearFields();
         this.clearFieldMatchers();
@@ -160,9 +162,12 @@ public class JsonMatcherBuilder {
         return this;
     }
 
-
+    public JsonMatcherBuilder allowNullValue(boolean allowNullValue) {
+        this.allowNullValue = allowNullValue;
+        return this;
+    }
 
     public JsonMatcher build() {
-        return new DefaultJsonMatcher(requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, arrayContentMatchers, objectMatchers);
+        return new DefaultJsonMatcher(requiredFields, requiredArrays, requiredObjects, fieldMatchers, arrayMatchers, arrayContentMatchers, objectMatchers, allowNullValue);
     }
 }

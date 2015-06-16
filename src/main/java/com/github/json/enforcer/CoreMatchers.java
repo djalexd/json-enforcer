@@ -32,7 +32,7 @@ public class CoreMatchers {
     /**
      * Builds a matcher that will validate an empty array (must
      * be present, otherwise an {@link com.jayway.jsonpath.InvalidPathException}
-     * will be thrown; to avoid this, use {@link #fieldExists(String)} matcher before).
+     * will be thrown; to avoid this, use {@link #fieldExists(String, boolean)} matcher before).
      * @return
      */
     public static JsonMatcher arrayEmpty() {
@@ -67,8 +67,8 @@ public class CoreMatchers {
      * @param path
      * @return
      */
-    public static JsonMatcher fieldExists(String path) {
-        return new FieldExistsJsonMatcher(path);
+    public static JsonMatcher fieldExists(String path, boolean allowNullValue) {
+        return new FieldExistsJsonMatcher(path, allowNullValue);
     }
 
     /**

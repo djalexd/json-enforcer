@@ -1,8 +1,7 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.InternalBundleReader;
-import com.jayway.jsonpath.InvalidPathException;
-import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.*;
 
 /**
  * Checks that a given path is missing. Will fail if the path exists.
@@ -11,6 +10,12 @@ import com.jayway.jsonpath.JsonPath;
  * @since 8:29 PM 5/12/13
  */
 public class FieldMissingJsonMatcher extends AbstractJsonMatcher {
+
+    private static final Configuration cfg = Configuration
+            .builder()
+            .options(Option.REQUIRE_PROPERTIES)
+            .build();
+
     private final String path;
     public FieldMissingJsonMatcher(String path) {
         this.path = path;
@@ -19,7 +24,9 @@ public class FieldMissingJsonMatcher extends AbstractJsonMatcher {
     @Override
     protected void doMatch(String json) throws Exception {
         try {
-            JsonPath.read(json, path);
+            DocumentContext ctx = JsonPath.parse(json, cfg);
+            ctx.read(path);
+
             failWithMessage(path);
         } catch (InvalidPathException e) {
             // This is ok.

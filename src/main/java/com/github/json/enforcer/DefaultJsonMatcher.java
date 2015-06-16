@@ -27,6 +27,8 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
     private final Map<String, JsonMatcher> arrayMatchers;
     private final Map<String, JsonMatcher> objectMatchers;
 
+    private final boolean allowNullValue;
+
     DefaultJsonMatcher(
             Set<String> requiredFields,
             Set<String> requiredArrays,
@@ -34,7 +36,8 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             Map<String, JsonMatcher> fieldMatchers,
             Map<String, JsonMatcher> arrayMatchers,
             Map<String, JsonMatcher> arrayContentMatchers,
-            Map<String, JsonMatcher> objectMatchers) {
+            Map<String, JsonMatcher> objectMatchers,
+            boolean allowNullValue) {
 
         this.requiredFields = new HashSet<String>(requiredFields);
         this.requiredArrays = new HashSet<String>(requiredArrays);
@@ -44,6 +47,8 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
         this.arrayMatchers = new HashMap<String, JsonMatcher>(arrayMatchers);
         this.arrayContentMatchers = new HashMap<String, JsonMatcher>(arrayContentMatchers);
         this.objectMatchers = new HashMap<String, JsonMatcher>(objectMatchers);
+
+        this.allowNullValue = allowNullValue;
     }
 
     @Override
@@ -56,7 +61,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
 
     void matchRequiredFields(String json) throws Exception {
         for (final String path : this.requiredFields) {
-            new FieldExistsJsonMatcher(path).match(new MockSpringMvcResult(json));
+            new FieldExistsJsonMatcher(path, allowNullValue).match(new MockSpringMvcResult(json));
             new FieldSimpleClassMatcher(path).match(new MockSpringMvcResult(json));
         }
     }
@@ -111,7 +116,7 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
         final MvcResult result = new MockSpringMvcResult(json);
 
         for (final String a : this.requiredObjects) {
-            new FieldExistsJsonMatcher(a).match(result);
+            new FieldExistsJsonMatcher(a, allowNullValue).match(result);
         }
 
         for (Map.Entry<String, JsonMatcher> a : this.objectMatchers.entrySet()) {
