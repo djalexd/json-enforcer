@@ -1,8 +1,13 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.MockSpringMvcResult;
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONUtil;
+
+import java.util.Map;
 
 /**
  * Matches each item in a root json context against a given matcher.
@@ -21,9 +26,12 @@ public class ArrayContentsJsonMatcher extends AbstractJsonMatcher {
     @Override
     protected void doMatch(String json) throws Exception {
 
-        final JSONArray array = JsonPath.read(json, "$.[*]");
+        DocumentContext docCtx = JsonPath.parse(json);
+
+        final JSONArray array = docCtx.read("$.[*]", JSONArray.class);
         for (Object expected : array) {
-            matcher.match( new MockSpringMvcResult(expected.toString()) );
+            Map map = (Map) expected;
+            matcher.match( new MockSpringMvcResult(new JSONObject(map).toJSONString()));
         }
     }
 }

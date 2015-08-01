@@ -1,7 +1,11 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.InternalBundleReader;
-import com.jayway.jsonpath.*;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.InvalidPathException;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
 
 /**
  * Checks that a given path exists in json.
@@ -28,7 +32,7 @@ public class FieldExistsJsonMatcher extends AbstractJsonMatcher {
     protected void doMatch(String json) throws Exception {
         try {
             DocumentContext ctx = JsonPath.parse(json, cfg);
-            ctx.read(path);
+            ctx.read("$." + path);
 
         } catch (InvalidPathException e) {
             if (!allowNullValue) {

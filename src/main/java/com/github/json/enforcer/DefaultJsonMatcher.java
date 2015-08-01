@@ -1,6 +1,7 @@
 package com.github.json.enforcer;
 
 import com.github.json.enforcer.internal.MockSpringMvcResult;
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
@@ -119,10 +120,12 @@ public class DefaultJsonMatcher extends AbstractJsonMatcher {
             new FieldExistsJsonMatcher(a, allowNullValue).match(result);
         }
 
+        DocumentContext docCtx = JsonPath.parse(json);
+
         for (Map.Entry<String, JsonMatcher> a : this.objectMatchers.entrySet()) {
             JsonMatcher matcherForThisObject = a.getValue();
             try {
-                JSONObject object = JsonPath.read(json, "$." + a.getKey());
+                JSONObject object = docCtx.read("$." + a.getKey(), JSONObject.class);
                 matcherForThisObject.match(new MockSpringMvcResult(object.toJSONString()));
 
             } catch (InvalidPathException e) {

@@ -51,6 +51,7 @@ public class DefaultJsonMatcherTest extends BaseJsonMatcherTest {
         final String json = objectMapper.writeValueAsString(notebook);
 
         builder.arrays("tags", "shops");
+        builder.arrayContentMatcher("shops", new JsonMatcherBuilder().fields("address").build());
         // then
         JsonMatcher matcher = builder.build();
         // assert
@@ -64,7 +65,10 @@ public class DefaultJsonMatcherTest extends BaseJsonMatcherTest {
         Notebook notebook = new Notebook(null, null, null, null, new BestPrice(4.0));
         final String json = objectMapper.writeValueAsString(notebook);
 
+        final JsonMatcher priceMatcher = CoreMatchers.fieldValue("price", 4.0);
+
         builder.objects("bestPrice");
+        builder.objectMatcher("bestPrice", priceMatcher);
         // then
         JsonMatcher matcher = builder.build();
         // assert
